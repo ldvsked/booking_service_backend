@@ -1,9 +1,12 @@
 package main
 
 
-import "time"
+import(
+	"time"
+	"github.com/google/uuid"
+)
 
-var Accounts[]Account = []Account{}
+var Users[]User = []User{}
 var Rooms[]Room = []Room{}
 var Bookings[]Booking = []Booking{}
 
@@ -12,32 +15,49 @@ var Bookings[]Booking = []Booking{}
 //сам код - это сущность
 
 func init() {
-	Accounts = append(Accounts, Account{Id: 1, 
+
+	Users = append(Users, User{Id: uuid.New(), 
 		Email: "vvv@gmail.ru", Role:"user",
 		CreatedAt: time.Now(),
 	})
-	Rooms = append(Rooms, Room{Id: 1, 
-		Name : "Red",
+	Rooms = append(Rooms, Room{Id: uuid.New(), 
+		Name : "Red", 
+		Description: "Cuty funny room for relax",
+		Capacity: 2,
+		CreatedAt: time.Now(),
 	})
 	
 }
 
-type Account struct {
-	Id int `json:"id"`
+type User struct {
+	Id uuid.UUID `json:"id"`
 	Email string `json:"email"`
 	Role string `json:"role"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 type Room struct {
-	Id int `json:"id"`
+	Id uuid.UUID `json:"id"`
 	Name string `json:"name"`
 	Description string `json:"description"`
 	Capacity int `json:"capacity"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 type Booking struct {
-	AccountId int `json:"account_id"`
-	RoomId int `json:"room_id"`
+	Id uuid.UUID `json:"id"`
+	SlotId uuid.UUID `json:"slotId"`
+	UserId uuid.UUID `json:"userId"`
 	Status string `json:"status"`
+	ConferenceLink string `json:"conferenceLink"`
+	CreatedAt time.Time `json:"createdAt"`
 }
+
+type Slot struct {
+	Id uuid.UUID `json:"id"`
+	RoomId uuid.UUID `json:"roomId"`
+	Start time.Time `json:"start"`
+	End time.Time `json:"end"`
+}
+
+
