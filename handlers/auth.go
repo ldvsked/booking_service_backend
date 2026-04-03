@@ -47,3 +47,42 @@ func DummyLogin(c *gin.Context) {
 	c.JSON(200, map[string]any {"token" : tokenString})
 
 }
+
+//jwt валидный
+func AuthMiddleware(c *gin.Context) {
+	//вытащить токен из заголовка 
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		c.JSON(401, map[string]interface{}{"error": "missing authorization header"})
+		return
+	}
+
+	//распарсить строку в jwt и подпись проверить
+	authHeader = authHeader[7:]
+	token, err := jwt.Parse(authHeader, func(token *jwt.Token)(interface{}, error) {
+		return []byte("i_want_to_sleep"), nil
+	})
+	if err != nil {
+		c.JSON(401, map[string]any{"error":"faked jwt"})
+		return
+	}
+	
+	//вытащить claims и проверить что там есть
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		c.Status(400)
+		return
+	}
+	//проверка и на есть и на приведение к строке
+	role, ok1 := claims["role"].(string)
+	userId, ok2 := claims["user_id"].(string)
+	if !ok1 || !ok2 || userId == "" || !(role == "admin" || role == "user") {
+		c.JSON(401, "invalid token")
+		return
+	}
+	
+
+
+	//проверить role 
+	//если все ок положить в контекст и передатб управление дальше
+}
