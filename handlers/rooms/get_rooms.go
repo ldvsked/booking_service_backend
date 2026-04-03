@@ -1,4 +1,4 @@
-package handlers 
+package rooms
 
 import (
 	"github.com/gin-gonic/gin"
@@ -8,4 +8,3 @@ import (
 func GetRooms(c *gin.Context) {
 	c.JSON(200, map[string]any{"rooms":models.Rooms})
 }
-

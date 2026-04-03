@@ -9,6 +9,7 @@ import(
 var Users[]User = []User{}
 var Rooms[]Room = []Room{}
 var Bookings[]Booking = []Booking{}
+var Schedules[]Schedule = []Schedule{}
 
 //сущности - идея того как будут хранится данные о реальном объекте в виде кода
 //есть реальный объект, мы придумываем как его хранить(идея) и записываем в виде кода
@@ -60,4 +61,10 @@ type Slot struct {
 	End time.Time `json:"end"`
 }
 
-
+type Schedule struct {
+	Id uuid.UUID `json:"id"`
+	RoomId uuid.UUID `json:"roomId"`
+	DaysOfWeek []int `json:"daysOfWeek"`
+	StartTime string `json:"startTime"`
+	EndTime string `json:"endTime"`
+}
