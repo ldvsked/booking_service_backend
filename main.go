@@ -19,10 +19,13 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	r.GET("/rooms/list", rooms.GetRooms)
-	r.POST("/dummyLogin", handlers.DummyLogin)
 	r.GET("/_info", handlers.Info)
+	r.POST("/dummyLogin", handlers.DummyLogin)
+
+	r.GET("/rooms/list", rooms.GetRooms)
 	r.POST("/rooms/create", handlers.AuthMiddleware, rooms.CreateRoom)
+
+	r.POST("/rooms/:roomId/schedule/create", handlers.AuthMiddleware, handlers.CreateShedule)
 
 	r.Run("localhost:8080")
 
