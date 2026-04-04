@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"time"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 
@@ -78,7 +79,44 @@ func CreateShedule(c *gin.Context) {
 	}
 
 	models.Schedules = append(models.Schedules, newSchedule)
+	CreateSlots(newSchedule)
 	c.JSON(201, gin.H{"schedule" : newSchedule})
+}
+
+func CreateSlots(schedule models.Schedule) {
+	now := time.Now().UTC()
+	for i := 0; i < 31; i++ {
+		cur := now.AddDate(0, 0, i)
+		weekday := int(cur.Weekday())
+		if weekday == 0 {
+			weekday = 7
+		}
+		var check bool = false 
+		for _, dayInSchedule := range schedule.DaysOfWeek {
+			if weekday == dayInSchedule {
+				check = true
+				break
+			}
+			if dayInSchedule > weekday {
+				break
+			}
+		}
+		if !check { //такого нет в расписании
+			continue
+		}
+		year, month, day := cur.Date()
+		for curMIn := toMinutes(schedule.StartTime); curMIn < toMinutes(schedule.EndTime); curMIn += 30 {
+			startDate := time.Date(year, month, day, curMIn / 60, curMIn % 60, 0, 0, time.UTC)
+			endDate := time.Date(year, month, day, (curMIn + 30) / 60, (curMIn + 30) % 60, 0, 0, time.UTC)
+			newSlot := models.Slot{
+				Id : uuid.New(), 
+				RoomId: schedule.RoomId,
+				Start:	startDate, 
+				End: endDate,
+			}
+			models.Slots = append(models.Slots, newSlot)
+		}
+	}
 }
 
 func toMinutes(t string) int {

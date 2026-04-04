@@ -10,6 +10,7 @@ var Users[]User = []User{}
 var Rooms[]Room = []Room{}
 var Bookings[]Booking = []Booking{}
 var Schedules[]Schedule = []Schedule{}
+var Slots[]Slot = []Slot{}
 
 //сущности - идея того как будут хранится данные о реальном объекте в виде кода
 //есть реальный объект, мы придумываем как его хранить(идея) и записываем в виде кода

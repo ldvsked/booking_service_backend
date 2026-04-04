@@ -27,6 +27,8 @@ func main() {
 
 	r.POST("/rooms/:roomId/schedule/create", handlers.AuthMiddleware, handlers.CreateShedule)
 
+	r.GET("/rooms/:roomId/slots/list", handlers.AuthMiddleware, handlers.GetSlots)
+
 	r.Run("localhost:8080")
 
 }
