@@ -30,9 +30,9 @@ func main() {
 
 	r.POST("/bookings/create", handlers.AuthMiddleware, bookings.CreateBooking)
 	r.GET("/bookings/list", handlers.AuthMiddleware, bookings.GetBookingsList)
-	r.GET("bookings/my", handlers.AuthMiddleware, bookings.GetMyBookings)
-	r.POST("bookings/:bookingId/cancel", handlers.AuthMiddleware, bookings.CancelBooking)
+	r.GET("/bookings/my", handlers.AuthMiddleware, bookings.GetMyBookings)
+	r.POST("/bookings/:bookingId/cancel", handlers.AuthMiddleware, bookings.CancelBooking)
 
-	r.Run("localhost:8080")
+	r.Run(":8080")
 
 }
