@@ -38,8 +38,17 @@ func GetSlots(c *gin.Context) {
 
 	for _, slot := range models.Slots {
 		if slot.Start.Format("2006-01-02") == date.Format("2006-01-02") &&
-		slot.RoomId == roomId {
-			result = append(result, slot)
+		slot.RoomId == roomId { //слот подошел
+			var check bool = true
+			for _, booking := range models.Bookings {
+				if booking.SlotId == slot.Id  && booking.Status != "cancelled"{ //проверили что его не забронировали
+					check = false
+					break
+				}
+			}
+			if check {
+				result = append(result, slot)
+			}
 		}
 	}
 	c.JSON(200, result)
