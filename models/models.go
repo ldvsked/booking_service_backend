@@ -44,8 +44,8 @@ type Booking struct {
 type Slot struct {
 	Id uuid.UUID `json:"id" db:"id"`
 	RoomId uuid.UUID `json:"roomId" db:"room_id"`
-	Start time.Time `json:"start" db:"start"`
-	End time.Time `json:"end" db:"end"`
+	Start time.Time `json:"start" db:"start_time"`
+	End time.Time `json:"end" db:"end_time"`
 }
 
 type Schedule struct {
