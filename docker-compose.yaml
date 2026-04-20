@@ -5,3 +5,14 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    depends_on:
+    - db
+
+  db: 
+    image: postgres:15-alpine 
+    environment: 
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=password 
+    - POSTGRES_DB=booking_db 
+    ports:
+    - "5432:5432"
