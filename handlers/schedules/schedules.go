@@ -1,4 +1,4 @@
-package handlers
+package schedules
 
 import (
 	"github.com/gin-gonic/gin"
